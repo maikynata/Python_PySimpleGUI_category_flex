@@ -65,7 +65,7 @@ dispatch_dictionary = {'Adicionar IDs':add_ids, 'Remover IDs':remove_ids}
 
 # Layout the design of the GUI
 layout = [[sg.Text("Adicionar ou Remover IDs de Oferta",auto_size_text=True)],
-          [sg.Button("Adicionar IDs"), sg.Button("Remover IDs")]]
+          [sg.Button("Adicionar IDs"), sg.Button("Remover IDs", button_color=('red','#FFFFFF'))],]
 
 # Create a window to the user
 window = sg.Window("Category Off", layout)
