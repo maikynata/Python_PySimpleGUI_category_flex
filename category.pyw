@@ -2,6 +2,7 @@ import psycopg2
 from config import config
 import PySimpleGUI as sg
 
+print = sg.Print
 
 def add_ids():
     try:
@@ -10,12 +11,6 @@ def add_ids():
         connection = psycopg2.connect(**params)
         cursor = connection.cursor()
 
-        # Print PostgreSQL version
-        cursor.execute("SELECT version();")
-        record = cursor.fetchone()
-        print("\nYou are connected to - ", record, "\n")
-
-
         sql_update_query = """update produtos
                               set prod_extra3 = CONCAT(prod_extra3,',98,18')
                               where prod_codigo in (select prun_prod_codigo from produn
@@ -23,12 +18,10 @@ def add_ids():
         cursor.execute(sql_update_query)
         connection.commit()
         count = cursor.rowcount
-        print(count, "Record Updated successfully ")
         sg.popup_ok(count, 'Produtos alterados!')
 
 
     except(Exception, psycopg2.Error) as error:
-        print("Error while connecting to PostgreSQL", error)
         sg.popup_ok("Error while connecting to PostgreSQL", error)
 
     finally:
@@ -36,7 +29,6 @@ def add_ids():
         if (connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
 
 
 def remove_ids():
@@ -45,12 +37,6 @@ def remove_ids():
         params = config()
         connection = psycopg2.connect(**params)
         cursor = connection.cursor()
-
-        # Print PostgreSQL version
-        cursor.execute("SELECT version();")
-        record = cursor.fetchone()
-        print("\nYou are connected to - ", record, "\n")
-
 
         sql_update_query = """update produtos
                               set prod_extra3 = removed_id_oferta.ids_categ from 
@@ -61,12 +47,10 @@ def remove_ids():
         cursor.execute(sql_update_query)
         connection.commit()
         count = cursor.rowcount
-        print(count, "Record Updated successfully ")
         sg.popup_ok(count, 'Produtos alterados!')
 
 
     except(Exception, psycopg2.Error) as error:
-        print("Error while connecting to PostgreSQL", error)
         sg.popup_ok("Error while connecting to PostgreSQL", error)
 
     finally:
@@ -74,7 +58,6 @@ def remove_ids():
         if (connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
 
 
 # Lookup dictionary that aps button to function to call
@@ -98,7 +81,7 @@ while True:
         func_to_call = dispatch_dictionary[event]  # get function from dispatch dictionary
         func_to_call()
     else:
-        print('Event {} not in dispatch dictionary'.format(event))
+        sg.popup_ok('Event {} not in dispatch dictionary'.format(event))
 
 window.close()
 
