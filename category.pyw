@@ -86,5 +86,5 @@ while True:
 window.close()
 
 # All done!
-sg.popup_ok('Ferramenta de Gestão de IDs Encerrada!')
+sg.popup_ok('Ferramenta de Gestão de IDs Encerrada!!!')
 
